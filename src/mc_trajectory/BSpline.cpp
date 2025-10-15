@@ -28,7 +28,7 @@ BSpline::BSpline(double duration,
                  const Eigen::Vector3d & target,
                  const curve_constraints_t & constr,
                  const std::vector<Eigen::Vector3d> & waypoints)
-ine<Eigen::Vector3d, std::vector<Eigen::Vector3d>>(duration, start, target, waypoints), constr_(constr)
+: Spline<Eigen::Vector3d, std::vector<Eigen::Vector3d>>(duration, start, target, waypoints), constr_(constr)
 {
   with_constraints = true;
   std::cout << "Using the BSpline constructor with constraints" << std::endl;
@@ -48,7 +48,7 @@ void BSpline::update()
     waypoints.push_back(target_);
     if (with_constraints)
     {
-      std::cout << "Using the BSpline update function with constraints" << std::endl;
+      // std::cout << "Using the BSpline update function with constraints" << std::endl;
       spline.reset(new BSpline::bezier_curve_t(waypoints.begin(),
       waypoints.end(), 
       constr_,
@@ -56,7 +56,7 @@ void BSpline::update()
       duration_));
     }
     else{
-      std::cout << "Using the BSpline update function WITHOUT constraints" << std::endl;
+      // std::cout << "Using the BSpline update function WITHOUT constraints" << std::endl;
       spline.reset(new BSpline::bezier_curve_t(waypoints.begin(), waypoints.end(), 0.0, duration_));
     }
     samples_ = this->sampleTrajectory();
